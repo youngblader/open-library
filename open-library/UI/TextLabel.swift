@@ -8,10 +8,10 @@
 import UIKit
 
 final class TextLabel: UILabel {
-    public private(set) var textLabel: String
-    public private(set) var color: UIColor
-    public private(set) var weight: UIFont.Weight
-    public private(set) var size: CGFloat
+    private var textLabel: String
+    private var color: UIColor
+    private var weight: UIFont.Weight
+    private var size: CGFloat
     
     init(label: String = "", size: CGFloat = 16, color: UIColor = .black, weight: UIFont.Weight = .light) {
         self.textLabel = label

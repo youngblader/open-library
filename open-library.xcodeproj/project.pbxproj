@@ -111,7 +111,6 @@
 		4486BE2229E9A9F000F772FE /* Endpoints */ = {
 			isa = PBXGroup;
 			children = (
-				44974C1829E949060047006C /* Endpoint.swift */,
 				44974C1B29E949200047006C /* LibraryEndpoint.swift */,
 			);
 			name = Endpoints;
@@ -126,12 +125,12 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
-		4486BE2629EA99DC00F772FE /* Components */ = {
+		4486BE2629EA99DC00F772FE /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				4486BE2729EA99EC00F772FE /* TextLabel.swift */,
 			);
-			path = Components;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		44974BB829E93D4D0047006C = {
@@ -158,9 +157,9 @@
 			isa = PBXGroup;
 			children = (
 				44974BF429E93D570047006C /* App */,
-				4486BE2629EA99DC00F772FE /* Components */,
+				4486BE2629EA99DC00F772FE /* UI */,
 				44974BF729E93D7A0047006C /* Screens */,
-				44974C0D29E947E10047006C /* Network */,
+				44974C0D29E947E10047006C /* Networking */,
 				44974BFF29E9411C0047006C /* Models */,
 				44974BF629E93D680047006C /* Resources */,
 			);
@@ -268,14 +267,23 @@
 			path = DetailBookViewController;
 			sourceTree = "<group>";
 		};
-		44974C0D29E947E10047006C /* Network */ = {
+		44974C0D29E947E10047006C /* Networking */ = {
 			isa = PBXGroup;
 			children = (
 				44974C1229E948EC0047006C /* API.swift */,
+				44CC908D2B7BB71A00C7A944 /* Base */,
 				44974BF529E93D5B0047006C /* Services */,
 				4486BE2229E9A9F000F772FE /* Endpoints */,
 			);
-			path = Network;
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		44CC908D2B7BB71A00C7A944 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				44974C1829E949060047006C /* Endpoint.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
