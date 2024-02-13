@@ -7,12 +7,14 @@
 
 import Foundation
 
+typealias EditionDetailsBook = (book: Book, publishDate: String)
+
 struct BookResponse: Codable {
     let status: String
     let copyright: String
     let numResult: Int
     let lastModified: String
-    let results: Results
+    let results: BookResultsResponse
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
@@ -28,7 +30,7 @@ struct BuyLink: Codable {
     var url: String
 }
         
-struct Results: Codable {
+struct BookResultsResponse: Codable {
     let listName: String
     let listNameEncoded: String
     let bestsellersDate: String
@@ -56,7 +58,7 @@ struct Results: Codable {
     }
 }
 
-struct EditionBook {
+struct EditionBooks {
     var books: [Book]
     var publishDate: String
 }

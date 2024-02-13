@@ -6,15 +6,14 @@
 //
 
 import Foundation
-
-let KEY: String = "RcANFiY9pE9b2OZaqPCsxGbauGeWFAF8"
+import Moya
 
 protocol BooksServiceProtocol {
-    func fetchBooks() async throws -> BookResponse
+    func fetchBooks(completion: @escaping (Result<BookResponse, Error>) -> ())
 }
 
 final class BooksService: API, BooksServiceProtocol {
-    func fetchBooks() async throws -> BookResponse {
-        return try await request(endpoint: LibraryEndpoint.getBooks(key: KEY), responseModel: BookResponse.self) //.results.books
+    func fetchBooks(completion: @escaping (Result<BookResponse, Error>) -> ()) {
+        request(target: .getBooks, completion: completion)
     }
 }

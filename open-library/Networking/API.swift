@@ -6,56 +6,29 @@
 //
 
 import Foundation
+import Moya
 
 protocol API {
-    func request<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T
+    func request<T: Decodable>(target: BooksEndpoint, completion: @escaping (Result<T, Error>) -> ())
 }
 
 extension API {
-    func request<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T {
-        var urlComponents = URLComponents()
-
-        urlComponents.scheme = endpoint.scheme
-        urlComponents.host = endpoint.host
-        urlComponents.path = endpoint.path
-        urlComponents.queryItems = endpoint.parameters
+    func request<T: Decodable>(target: BooksEndpoint, completion: @escaping (Result<T, Error>) -> ()) {
         
-        guard let url = urlComponents.url else {
-            throw NetworkError.invalidURL
-        }
-    
-        var request = URLRequest(url: url)
-        request.httpMethod = endpoint.method.rawValue
-        request.allHTTPHeaderFields = endpoint.headers
+        var provider = MoyaProvider<BooksEndpoint>(plugins: [NetworkLoggerPlugin()])
         
-        if let body = endpoint.body {
-            request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
-        }
-        
-        let session = URLSession(configuration: .default)
-        let decoder = JSONDecoder()
-        
-        do {
-            let (data, response) = try await session.data(for: request)
-            
-            guard let response = response as? HTTPURLResponse else {
-                throw NetworkError.noResponse
-            }
-            
-            switch response.statusCode {
-            case 200..<299:
-                guard let decodedResponse = try? decoder.decode(responseModel, from: data) else {
-                    throw NetworkError.decode
+        provider.request(target) { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let results = try JSONDecoder().decode(T.self, from: response.data)
+                    completion(.success(results))
+                } catch let error {
+                    completion(.failure(error))
                 }
-
-                return decodedResponse
-            case 401:
-                throw NetworkError.unauthorized
-            default:
-                throw NetworkError.unexpectedStatusCode
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } catch {
-            throw NetworkError.unknown
         }
     }
 }
