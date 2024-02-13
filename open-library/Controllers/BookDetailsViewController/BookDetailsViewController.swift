@@ -1,5 +1,5 @@
 //
-//  DetailBookView.swift
+//  BooksDetailsViewController.swift
 //  open-library
 //
 //  Created by Eugene on 14.04.23.
@@ -7,10 +7,11 @@
 
 import UIKit
 import SnapKit
-import Kingfisher
 
-final class DetailBookView: UIView {
-    var data: (book: Book, publishDate: String)?
+final class BookDetailsViewController: UIViewController {
+    var output: BooksDetailsPresenter?
+    
+    var detailsBookData: EditionDetailsBook?
     
     private let titleLabel = TextLabel(size: 16, weight: .bold)
     private let publishDateLabel = TextLabel(size: 14, color: .gray, weight: .medium)
@@ -20,12 +21,12 @@ final class DetailBookView: UIView {
     
     private let coverImageView: UIImageView = {
         let imageView =  UIImageView()
-
+        
         imageView.heightAnchor.constraint(equalToConstant: 240).isActive = true
         
         return imageView
     }()
-
+    
     private let aboutBookStackView: UIStackView = {
         let stack = UIStackView()
         
@@ -36,40 +37,47 @@ final class DetailBookView: UIView {
         return stack
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         setup()
         setupViews()
         setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        
+        if let detailsBookData {
+            self.output?.updateBookDetails(detailsBookData)
+        }
     }
     
     //MARK: Public update
-    func update(_ data: (book: Book, publishDate: String)) {
+    func update(_ data: EditionDetailsBook) {
         let (book, publishDate) = data
-    
+        
         coverImageView.kf.setImage(with: URL(string: book.bookImage))
         titleLabel.text = book.title
         descriptionLabel.text = book.description
         publishDateLabel.text = publishDate
-
+        
         ratingView.update(book.rank)
     }
 }
 
-extension DetailBookView {
+//MARK: BooksViewInput
+extension BookDetailsViewController: BooksDetailsViewInput {
+    func updateDetailsBook(_ data: EditionDetailsBook) {
+        self.update(data)
+    }
+}
+
+extension BookDetailsViewController {
     private func setup() {
-        self.backgroundColor = .white
+        self.view.backgroundColor = .white
     }
     
     private func setupViews() {
-        self.addSubview(coverImageView)
-        self.addSubview(aboutBookStackView)
-        self.addSubview(ratingView)
+        self.view.addSubview(coverImageView)
+        self.view.addSubview(aboutBookStackView)
+        self.view.addSubview(ratingView)
         
         aboutBookStackView.addArrangedSubview(titleLabel)
         aboutBookStackView.addArrangedSubview(descriptionLabel)
@@ -78,17 +86,17 @@ extension DetailBookView {
     
     private func setupConstraints() {
         coverImageView.snp.makeConstraints { make in
-            make.top.left.right.equalTo(self)
+            make.top.left.right.equalTo(view)
         }
         
         aboutBookStackView.snp.makeConstraints { make in
             make.top.equalTo(coverImageView.snp.bottom).offset(20)
-            make.left.right.equalTo(self).inset(20)
+            make.left.right.equalTo(view).inset(20)
         }
         
         ratingView.snp.makeConstraints { make in
             make.top.equalTo(aboutBookStackView.snp.bottom).offset(10)
-            make.left.equalTo(self).inset(20)
+            make.left.equalTo(view).inset(20)
         }
     }
 }

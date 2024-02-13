@@ -9,9 +9,8 @@ import UIKit
 import SnapKit
 
 final class BooksViewController: UIViewController {
-    private var libraryService = LibraryService()
-    
-    var libraryTableView = LibraryTableView()
+    var output: BooksViewOutput?
+    private var booksTableView = BooksTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,52 +19,33 @@ final class BooksViewController: UIViewController {
         setupViews()
         setupConstraints()
         
-        fetchLibraryBooks()
+        output?.getBooks()
         
-        libraryTableView.onTappedBook = { data in
-            self.showDetailBook(data)
+        booksTableView.onBookTapped = { data in
+            self.output?.presentBookDetails(data, self)
         }
     }
-    
-    private func fetchLibraryBooks() {
-        Task {
-            do {
-                let response = try await libraryService.fetchBooks()
-                
-                let data: EditionBook = EditionBook(books: response.results.books, publishDate: response.results.publishedDate)
-                
-                update(data)
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    private func showDetailBook(_ data: (book: Book, publishDate: String)) {
-        let controller = DetailBookViewController()
-        controller.data = data
-        
-        present(controller, animated: true)
-    }
-    
-    //MARK: Public update
-    func update(_ data: EditionBook) {
-        libraryTableView.update(data)
+}
+
+//MARK: BooksViewInput
+extension BooksViewController: BooksViewInput {
+    func updateBooks(_ data: EditionBooks) {
+        booksTableView.update(data)
     }
 }
 
 extension BooksViewController {
     private func setup() {
-        self.title = "Library"
+        self.title = "Books Library"
     }
     
     private func setupViews() {
-        self.view.addSubview(libraryTableView)
+        self.view.addSubview(booksTableView)
     }
     
     private func setupConstraints() {
-        libraryTableView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view)
+        booksTableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

@@ -8,9 +8,9 @@
 import UIKit
 
 final class BooksTableView: UITableView {
-    private var editionBook = EditionBook(books: [], publishDate: "")
+    private var editionBooksData = EditionBooks(books: [], publishDate: "")
     
-    var onTappedBook: (((Book, String))->())?
+    var onBookTapped: ((EditionDetailsBook)->())?
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: .plain)
@@ -28,33 +28,33 @@ final class BooksTableView: UITableView {
     }
     
     //MARK: Public update
-    func update(_ data: EditionBook) {
-        self.editionBook =  data
-        
+    func update(_ data: EditionBooks) {
+        self.editionBooksData = data
         self.reloadData()
     }
 }
 
 extension BooksTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = editionBook.books[indexPath.row]
-
-        onTappedBook?((item, editionBook.publishDate))
+        let item = editionBooksData.books[indexPath.row]
+        let data: EditionDetailsBook = (item, editionBooksData.publishDate)
+    
+        onBookTapped?(data)
         
         let indexesToRedraw = [indexPath]
         tableView.reloadRows(at: indexesToRedraw, with: .fade)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return editionBook.books.count
+        return editionBooksData.books.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.dequeueReusableCell(withIdentifier: BookCell.reuseId , for: indexPath) as! BookCell
         
-        let item = editionBook.books[indexPath.row]
+        let item = editionBooksData.books[indexPath.row]
         
-        cell.update((item, editionBook.publishDate))
+        cell.update((item, editionBooksData.publishDate))
         
         return cell
     }
