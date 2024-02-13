@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum LibraryEndpoint {
+enum BooksEndpoint {
     case getBooks(key: String)
 }
 
-extension LibraryEndpoint: Endpoint {
+extension BooksEndpoint: Endpoint {
     var path: String {
         switch self {
         case .getBooks:

@@ -1,5 +1,5 @@
 //
-//  DetailBookViewController.swift
+//  BooksDetailsViewController.swift
 //  open-library
 //
 //  Created by Eugene on 14.04.23.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class DetailBookViewController: UIViewController {
+final class BooksDetailsViewController: UIViewController {
     var data: (book: Book, publishDate: String)?
     
     private var detailBookView: DetailBookView {

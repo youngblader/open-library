@@ -1,5 +1,5 @@
 //
-//  LibraryTableView.swift
+//  BooksTableView.swift
 //  open-library
 //
 //  Created by Eugene on 14.04.23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LibraryTableView: UITableView {
+final class BooksTableView: UITableView {
     private var editionBook = EditionBook(books: [], publishDate: "")
     
     var onTappedBook: (((Book, String))->())?
@@ -29,14 +29,13 @@ final class LibraryTableView: UITableView {
     
     //MARK: Public update
     func update(_ data: EditionBook) {
-        self.editionBook.books = data.books
-        self.editionBook.publishDate = data.publishDate
+        self.editionBook =  data
         
         self.reloadData()
     }
 }
 
-extension LibraryTableView: UITableViewDelegate, UITableViewDataSource {
+extension BooksTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = editionBook.books[indexPath.row]
 

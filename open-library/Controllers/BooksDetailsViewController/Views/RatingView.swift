@@ -31,7 +31,7 @@ final class RatingView: UIView {
         
         return stack
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

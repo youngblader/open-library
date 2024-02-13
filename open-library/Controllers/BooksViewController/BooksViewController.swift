@@ -1,30 +1,28 @@
 //
-//  LibraryViewController.swift
+//  BooksViewController.swift
 //  open-library
 //
 //  Created by Eugene on 14.04.23.
 //
 
 import UIKit
+import SnapKit
 
-final class LibraryViewController: UIViewController {
+final class BooksViewController: UIViewController {
     private var libraryService = LibraryService()
-
-    private var libraryView: LibraryView {
-        return self.view as! LibraryView
-    }
     
-    override func loadView() {
-        self.view = LibraryView(frame: UIScreen.main.bounds)
-    }
+    var libraryTableView = LibraryTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
+        setupViews()
+        setupConstraints()
+        
         fetchLibraryBooks()
         
-        libraryView.libraryTableView.onTappedBook = { data in
+        libraryTableView.onTappedBook = { data in
             self.showDetailBook(data)
         }
     }
@@ -36,7 +34,7 @@ final class LibraryViewController: UIViewController {
                 
                 let data: EditionBook = EditionBook(books: response.results.books, publishDate: response.results.publishedDate)
                 
-                libraryView.update(data)
+                update(data)
             } catch {
                 print(error)
             }
@@ -50,7 +48,24 @@ final class LibraryViewController: UIViewController {
         present(controller, animated: true)
     }
     
+    //MARK: Public update
+    func update(_ data: EditionBook) {
+        libraryTableView.update(data)
+    }
+}
+
+extension BooksViewController {
     private func setup() {
         self.title = "Library"
+    }
+    
+    private func setupViews() {
+        self.view.addSubview(libraryTableView)
+    }
+    
+    private func setupConstraints() {
+        libraryTableView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view)
+        }
     }
 }
