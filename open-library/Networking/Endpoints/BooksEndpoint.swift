@@ -1,8 +1,8 @@
 //
-//  CategoriesEndpoint.swift
-//  delivery-food-app
+//  BooksEndpoint.swift
+//  open-library
 //
-//  Created by Eugene on 13.04.23.
+//  Created by Евгений Зорич on 13.02.24.
 //
 
 import Foundation
@@ -30,25 +30,18 @@ extension BooksEndpoint: TargetType {
     }
     
     var parameters: [String: Any] {
-        if let key = ProcessInfo.processInfo.environment["API_KEY"] {
-            switch self {
-            case .getBooks:
+        switch self {
+        case .getBooks:
+            if let key = ProcessInfo.processInfo.environment["API_KEY"] {
                 return ["api-key": key]
             }
+            
+            return [:]
         }
-        
-        return [:]
     }
     
     var headers: [String: String]? {
-        let accessToken = ""
-        switch self {
-        case .getBooks:
-            return [
-                "Authorization": "Bearer \(accessToken)",
-                "Content-Type": "application/json;charset=utf-8"
-            ]
-        }
+        return ["Content-type": "application/json"]
     }
     
     var sampleData: Data {
@@ -58,7 +51,7 @@ extension BooksEndpoint: TargetType {
     var task: Task {
         switch self {
         case .getBooks:
-            return .requestCompositeData(bodyData: sampleData, urlParameters: parameters)
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         }
     }
 }

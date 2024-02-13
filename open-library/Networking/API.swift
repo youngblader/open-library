@@ -15,7 +15,7 @@ protocol API {
 extension API {
     func request<T: Decodable>(target: BooksEndpoint, completion: @escaping (Result<T, Error>) -> ()) {
         
-        var provider = MoyaProvider<BooksEndpoint>(plugins: [NetworkLoggerPlugin()])
+        let provider = MoyaProvider<BooksEndpoint>(plugins: [NetworkLoggerPlugin()])
         
         provider.request(target) { result in
             switch result {
