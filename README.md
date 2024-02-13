@@ -19,8 +19,9 @@ After cloning this repo, open XCode and build project
  
 * Swift
 * UIKit, SnapKit
+* Moya, Alamofire
 * Kingfisher
-* MVC
+* MVP
 
 ## Authors
 
