@@ -9,11 +9,11 @@ import Foundation
 import Moya
 
 protocol BooksServiceProtocol {
-    func fetchBooks(completion: @escaping (Result<BookResponse, Error>) -> ())
+    func fetchBooks(completion: @escaping (Result<BooksResponse, Error>) -> ())
 }
 
 final class BooksService: API, BooksServiceProtocol {
-    func fetchBooks(completion: @escaping (Result<BookResponse, Error>) -> ()) {
+    func fetchBooks(completion: @escaping (Result<BooksResponse, Error>) -> ()) {
         request(target: .getBooks, completion: completion)
     }
 }
