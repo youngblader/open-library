@@ -14,15 +14,20 @@ protocol API {
 
 extension API {
     func request<T: Decodable>(target: BooksEndpoint, completion: @escaping (Result<T, Error>) -> ()) {
-        
         let provider = MoyaProvider<BooksEndpoint>(plugins: [NetworkLoggerPlugin()])
         
         provider.request(target) { result in
             switch result {
             case let .success(response):
+                
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
                 do {
-                    let results = try JSONDecoder().decode(T.self, from: response.data)
+                    let results = try decoder.decode(T.self, from: response.data)
                     completion(.success(results))
+                } catch DecodingError.keyNotFound(let key, _) {
+                    print("Отсутствует ключ: \(key.stringValue)")
                 } catch let error {
                     completion(.failure(error))
                 }
