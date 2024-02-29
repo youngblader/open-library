@@ -50,14 +50,14 @@ final class BookCell: UITableViewCell {
     }
 }
 
-extension BookCell {
-    private func setupViews() {
+private extension BookCell {
+    func setupViews() {
         contentView.addSubview(coverImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(publishDateLabel)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         coverImageView.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView).inset(10)
             make.left.equalTo(contentView)

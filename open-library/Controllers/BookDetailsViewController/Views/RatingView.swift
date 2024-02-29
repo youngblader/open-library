@@ -49,8 +49,8 @@ final class RatingView: UIView {
     }
 }
 
-extension RatingView {
-    private func setupViews() {
+private extension RatingView {
+    func setupViews() {
         self.addSubview(containerStack)
         self.addSubview(ratingLabel)
         
@@ -59,7 +59,7 @@ extension RatingView {
         }
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         containerStack.snp.makeConstraints { make in
             make.top.left.equalTo(self)
         }

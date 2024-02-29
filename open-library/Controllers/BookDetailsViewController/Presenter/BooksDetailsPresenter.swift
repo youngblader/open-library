@@ -5,7 +5,6 @@
 //  Created by Евгений Зорич on 13.02.24.
 //
 
-import UIKit
 import Foundation
 
 //Input interface
@@ -20,12 +19,6 @@ protocol BooksDetailsViewOutput: AnyObject {
 
 final class BooksDetailsPresenter {
     weak var view: BooksDetailsViewInput?
-    
-//    private var bookService: BooksService
-//
-//    init(bookService: BooksService) {
-//        self.bookService = bookService
-//    }
 }
 
 //MARK: - Actions (ViewOutput)

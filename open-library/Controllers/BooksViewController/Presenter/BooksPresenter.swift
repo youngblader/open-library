@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 //Input interface
 protocol BooksViewInput: AnyObject {

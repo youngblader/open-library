@@ -20,12 +20,11 @@ final class ScreenFactory: ScreenFactoryProtocol {
     func createBooksController() -> UINavigationController {
         let controller = BooksViewController()
         
-        let service: BooksService = di.booksService as! BooksService
-        let presenter = BooksPresenter(bookService: service, router: di.router as! Router)
-
+        let presenter = BooksPresenter(bookService: di.booksService as! BooksService, router: di.router as! Router)
+        
         presenter.view = controller
         controller.output = presenter
-
+        
         return UINavigationController(rootViewController: controller)
     }
     
@@ -33,7 +32,7 @@ final class ScreenFactory: ScreenFactoryProtocol {
         let controller = BookDetailsViewController()
         
         let presenter = BooksDetailsPresenter()
-
+        
         presenter.view = controller
         controller.output = presenter
         

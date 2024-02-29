@@ -10,8 +10,11 @@ import SnapKit
 
 final class BooksViewController: UIViewController {
     var output: BooksViewOutput?
+    
+    //MARK: - Views
     private var booksTableView = BooksTableView()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,23 +30,24 @@ final class BooksViewController: UIViewController {
     }
 }
 
-//MARK: BooksViewInput
+//MARK: - BooksViewInput
 extension BooksViewController: BooksViewInput {
     func updateBooks(_ data: EditionBooks) {
         booksTableView.update(data)
     }
 }
 
-extension BooksViewController {
-    private func setup() {
+//MARK: - SetupViews
+private extension BooksViewController {
+    func setup() {
         self.title = "Books Library"
     }
     
-    private func setupViews() {
+    func setupViews() {
         self.view.addSubview(booksTableView)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         booksTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

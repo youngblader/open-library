@@ -10,9 +10,9 @@ import SnapKit
 
 final class BookDetailsViewController: UIViewController {
     var output: BooksDetailsPresenter?
-    
     var detailsBookData: EditionDetailsBook?
     
+    //MARK: - Views
     private let titleLabel = TextLabel(size: 16, weight: .bold)
     private let publishDateLabel = TextLabel(size: 14, color: .gray, weight: .medium)
     private let descriptionLabel = TextLabel(size: 16, color: .gray, weight: .medium)
@@ -37,6 +37,7 @@ final class BookDetailsViewController: UIViewController {
         return stack
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +50,7 @@ final class BookDetailsViewController: UIViewController {
         }
     }
     
-    //MARK: Public update
+    //MARK: - Public update
     func update(_ data: EditionDetailsBook) {
         let (book, publishDate) = data
         
@@ -62,29 +63,30 @@ final class BookDetailsViewController: UIViewController {
     }
 }
 
-//MARK: BooksViewInput
+//MARK: - BooksViewInput
 extension BookDetailsViewController: BooksDetailsViewInput {
     func updateDetailsBook(_ data: EditionDetailsBook) {
         self.update(data)
     }
 }
 
-extension BookDetailsViewController {
-    private func setup() {
-        self.view.backgroundColor = .white
+//MARK: - SetupViews
+private extension BookDetailsViewController {
+    func setup() {
+        view.backgroundColor = .white
     }
     
-    private func setupViews() {
-        self.view.addSubview(coverImageView)
-        self.view.addSubview(aboutBookStackView)
-        self.view.addSubview(ratingView)
+    func setupViews() {
+        view.addSubview(coverImageView)
+        view.addSubview(aboutBookStackView)
+        view.addSubview(ratingView)
         
         aboutBookStackView.addArrangedSubview(titleLabel)
         aboutBookStackView.addArrangedSubview(descriptionLabel)
         aboutBookStackView.addArrangedSubview(publishDateLabel)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         coverImageView.snp.makeConstraints { make in
             make.top.left.right.equalTo(view)
         }
