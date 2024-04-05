@@ -24,7 +24,8 @@ final class BooksViewController: UIViewController {
         
         output?.getBooks()
         
-        booksTableView.onBookTapped = { data in
+        booksTableView.onBookTapped = { [weak self] data in
+            guard let self = self else { return }
             self.output?.presentBookDetails(data, self)
         }
     }
@@ -44,7 +45,7 @@ private extension BooksViewController {
     }
     
     func setupViews() {
-        self.view.addSubview(booksTableView)
+        view.addSubview(booksTableView)
     }
     
     func setupConstraints() {

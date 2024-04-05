@@ -35,7 +35,8 @@ final class BooksPresenter {
             
             switch result {
             case .success(let response):
-                self.view?.updateBooks(EditionBooks(books: response.results.books, publishDate: response.results.publishedDate))
+                let editionBook = EditionBooks(books: response.results.books, publishDate: response.results.publishedDate)
+                self.view?.updateBooks(editionBook)
             case .failure(let error):
                 print(error.localizedDescription)
             }
